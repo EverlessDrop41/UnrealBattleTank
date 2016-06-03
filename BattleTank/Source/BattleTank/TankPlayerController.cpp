@@ -21,3 +21,17 @@ void ATankPlayerController::BeginPlay() {
 	}
 	
 }
+
+void ATankPlayerController::Tick(float deltaTime) {
+	Super::Tick(deltaTime);
+	AimTowardsCrosshair();
+}
+
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	ATank* ControlledTank = GetControlledTank();
+	if (!ControlledTank) { return; }
+	//Get the world location thorugh crosshair linecast
+	//If it hits a thing that can be hit
+		//Tell the controlled tank to aim at it
+}
