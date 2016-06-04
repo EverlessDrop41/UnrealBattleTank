@@ -42,7 +42,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 	if (GetLookDirection(LookDirection)) {
 		
 		if (GetLookVectorHitLocation(LookDirection, HitLocation)) {
-			//GetControlledTank()->AimAt(HitLocation);
+			GetControlledTank()->AimAt(HitLocation);
 		}
 	}
 
