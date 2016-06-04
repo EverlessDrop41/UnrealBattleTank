@@ -33,6 +33,6 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 }
 
 void ATank::AimAt(FVector Position) {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("[T] %s aiming at %s"), *GetName(), *Position.ToString()));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("[T] %s aiming at %s"), *GetName(), *Position.ToString()));
 }
 
