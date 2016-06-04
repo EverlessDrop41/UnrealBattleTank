@@ -33,3 +33,13 @@ void ATankAIController::BeginPlay() {
 		GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, TEXT("[TAIC] Player Tank not found"));
 	}
 }
+
+void ATankAIController::Tick(float deltaTime) {
+	Super::Tick(deltaTime);
+
+	ATank* PlayerTank = GetPlayerTank();
+
+	if (PlayerTank) {
+		GetControlledTank()->AimAt(PlayerTank->GetActorLocation());
+	}
+}
