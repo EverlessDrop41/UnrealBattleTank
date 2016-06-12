@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+#include "../Public/TankBarrel.h"
 #include "../Public/TankAimingComponent.h"
 
 
@@ -15,7 +16,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet) {
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
 }
 
@@ -39,5 +40,34 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 }
 
 void UTankAimingComponent::AimAt(FVector Position, float LaunchSpeed) {
-	UE_LOG(LogTemp, Warning, TEXT("[TAC] Firing at %f cm/s"), LaunchSpeed);
+	if (!Barrel) { return; }
+
+	FVector LaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+	bool bCanAim = UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		LaunchVelocity,
+		StartLocation,
+		Position,
+		LaunchSpeed,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+
+	if (bCanAim) {
+		auto AimDirection = LaunchVelocity.GetSafeNormal();
+		MoveBarrel(AimDirection);
+		UE_LOG(LogTemp, Warning, TEXT("[TAC] Aiming at %s"), *AimDirection.ToString());
+	}	
+}
+
+void UTankAimingComponent::MoveBarrel(FVector AimDirection) {
+	//Move the barrel to match the aim directon
+	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
+	FRotator AimAsRotator = AimDirection.Rotation();
+	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
+
+	//Move the barrel given the max elevation speed
+	Barrel->Elevate(5); //TODO: Remove Magic Number
+
 }
