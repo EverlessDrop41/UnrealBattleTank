@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "../Public/TankBarrel.h"
+#include "../Public/TankTurret.h"
 #include "../Public/TankAimingComponent.h"
 
 
@@ -20,6 +21,9 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet) {
+	Turret = TurretToSet;
+}
 
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
@@ -40,8 +44,8 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 }
 
 void UTankAimingComponent::AimAt(FVector Position, float LaunchSpeed) {
-	if (!Barrel) {
-		UE_LOG(LogTemp, Error, TEXT("[TAC] Cannot Find Barrel"));
+	if (!Barrel || !Turret) {
+		UE_LOG(LogTemp, Error, TEXT("[TAC] Cannot Find Barrel And/Or Turret"));
 		return; 
 	}
 
@@ -78,5 +82,6 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection) {
 
 	//Move the barrel given the max elevation speed
 	Barrel->Elevate(DeltaRotator.Pitch); //TODO: Remove Magic Number
+	Turret->Yaw(DeltaRotator.Yaw);
 
 }
