@@ -77,6 +77,6 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection) {
 	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
 
 	//Move the barrel given the max elevation speed
-	Barrel->Elevate(5); //TODO: Remove Magic Number
+	Barrel->Elevate(DeltaRotator.Pitch); //TODO: Remove Magic Number
 
 }
