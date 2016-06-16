@@ -3,7 +3,7 @@
 #include "BattleTank.h"
 #include "Public/TankBarrel.h"
 
-void UTankBarrel::Elevate(float DegreesPerSecond) {
-	UE_LOG(LogTemp, Warning, TEXT("[TB] Elevating Barrel at speed: %f"), DegreesPerSecond);
+void UTankBarrel::Elevate(float RelativeSpeed) {
+	//TODO: Barrel Elevation
 }
 

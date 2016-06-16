@@ -14,7 +14,10 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
-	void Elevate(float DegreesPerSecond);
+	//-1 is max down
+	//+1 is max up movement
+	//Move the Barrel Up/Down
+	void Elevate(float RelativeSpeed);
 
 private:
 	UPROPERTY(EditAnywhere, Category= Elevation)

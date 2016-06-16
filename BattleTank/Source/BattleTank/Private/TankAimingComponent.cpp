@@ -40,7 +40,10 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 }
 
 void UTankAimingComponent::AimAt(FVector Position, float LaunchSpeed) {
-	if (!Barrel) { return; }
+	if (!Barrel) {
+		UE_LOG(LogTemp, Error, TEXT("[TAC] Cannot Find Barrel"));
+		return; 
+	}
 
 	FVector LaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -51,14 +54,20 @@ void UTankAimingComponent::AimAt(FVector Position, float LaunchSpeed) {
 		StartLocation,
 		Position,
 		LaunchSpeed,
+		false,
+		0,
+		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
 	if (bCanAim) {
 		auto AimDirection = LaunchVelocity.GetSafeNormal();
 		MoveBarrel(AimDirection);
-		UE_LOG(LogTemp, Warning, TEXT("[TAC] Aiming at %s"), *AimDirection.ToString());
-	}	
+		UE_LOG(LogTemp, Warning, TEXT("%f: [TAC] Can Aim"), GetWorld()->GetTimeSeconds());
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("%f: [TAC] Cannot Aim"), GetWorld()->GetTimeSeconds());
+	}
 }
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection) {
